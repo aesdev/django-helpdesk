@@ -265,6 +265,13 @@ def decode_mail_headers(string):
 
 
 def ticket_from_message(message, queue, logger):
+    try:
+        return(do_ticket_from_message(message, queue, logger))
+    except:
+        return(None)
+
+
+def do_ticket_from_message(message, queue, logger):
     # 'message' must be an RFC822 formatted message.
     message = email.message_from_string(message) if six.PY3 else email.message_from_string(message.encode('utf-8'))
     subject = message.get('subject', _('Comment from e-mail'))
