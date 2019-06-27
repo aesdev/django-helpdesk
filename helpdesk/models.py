@@ -8,6 +8,7 @@ models.py - Model (and hence database) definitions. This is the core of the
 """
 
 from __future__ import unicode_literals
+from django.contrib.auth.models import User
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ObjectDoesNotExist
@@ -254,7 +255,8 @@ class Queue(models.Model):
     )
 
     default_owner = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        User,
+        limit_choices_to={'is_staff': True},
         related_name='default_owner',
         blank=True,
         null=True,
@@ -409,7 +411,8 @@ class Ticket(models.Model):
     )
 
     assigned_to = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        User,
+        limit_choices_to={'is_staff': True},
         related_name='assigned_to',
         blank=True,
         null=True,
