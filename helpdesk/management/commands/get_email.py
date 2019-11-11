@@ -282,7 +282,11 @@ def do_ticket_from_message(message, queue, logger):
 
     sender = message.get('from', _('Unknown Sender'))
     sender = decode_mail_headers(decodeUnknown(message.get_charset(), sender))
-    sender_email = email.utils.parseaddr(sender)[1]
+
+    sender_email = message.get('reply-to', _(''))
+
+    if not sender_email:
+        sender_email = email.utils.parseaddr(sender)[1]
 
     cc = message.get_all('cc', None)
     if cc:
