@@ -280,7 +280,7 @@ def do_ticket_from_message(message, queue, logger):
         subject = subject.replace(affix, "")
     subject = subject.strip()
 
-    sender = message.get('reply-to', _(''))
+    sender = message.get('reply-to', '')
     if not sender:
         sender = message.get('from', _('Unknown Sender'))
 
