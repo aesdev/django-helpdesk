@@ -288,7 +288,7 @@ def do_ticket_from_message(message, queue, logger):
 
     precedence = message.get('Precedence', '')
     if precedence in ('list', 'junk', 'bulk'):
-        logger.info('Ignoring message (%s) in %s due to Precedence: %s' % (subject, queue.slug, precedence ))
+        logger.info('Ignoring message (%s)  from %s in %s due to Precedence: %s' % (subject, sender, queue.slug, precedence))
         return( True )
 
     sender = decode_mail_headers(decodeUnknown(message.get_charset(), sender))
