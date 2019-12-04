@@ -94,8 +94,10 @@ def process_email(quiet=False):
         if quiet:
             logger.propagate = False  # do not propagate to root logger that would log to console
         logdir = q.logging_dir or '/var/log/helpdesk/'
-        handler = logging.FileHandler(join(logdir, q.slug + '_get_email.log'))
+        handler = logging.FileHandler(join(logdir, q.slug + '_get_email.log'), 'w')
         logger.addHandler(handler)
+        formatter = logging.Formatter('%(name)s %(asctime)s %(levelname)-8s %(message)s', '%Y-%m-%d %H:%M:%S')
+        handler.setFormatter(formatter)
 
         if not q.email_box_last_check:
             q.email_box_last_check = timezone.now() - timedelta(minutes=30)
@@ -283,6 +285,11 @@ def do_ticket_from_message(message, queue, logger):
     sender = message.get('reply-to', '')
     if not sender:
         sender = message.get('from', _('Unknown Sender'))
+
+    precedence = message.get('Precedence', '')
+    if precedence in ('list', 'junk', 'bulk'):
+        logger.info('Ignoring message (%s) in %s due to Precedence: %s' % (subject, queue.slug, precedence ))
+        return( True )
 
     sender = decode_mail_headers(decodeUnknown(message.get_charset(), sender))
     sender_email = email.utils.parseaddr(sender)[1]
