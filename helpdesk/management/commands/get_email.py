@@ -94,9 +94,9 @@ def process_email(quiet=False):
         if quiet:
             logger.propagate = False  # do not propagate to root logger that would log to console
         logdir = q.logging_dir or '/var/log/helpdesk/'
-        handler = logging.FileHandler(join(logdir, q.slug + '_get_email.log'), 'w')
+        handler = logging.FileHandler(join(logdir, q.slug + '_get_email.log'))
+        formatter = logging.Formatter('%(asctime)s %(levelname)-8s %(message)s', '%Y-%m-%d %H:%M:%S')
         logger.addHandler(handler)
-        formatter = logging.Formatter('%(name)s %(asctime)s %(levelname)-8s %(message)s', '%Y-%m-%d %H:%M:%S')
         handler.setFormatter(formatter)
 
         if not q.email_box_last_check:
