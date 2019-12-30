@@ -1467,4 +1467,4 @@ class TicketDependency(models.Model):
     )
 
     def __str__(self):
-        return '%s / %s' % (self.ticket, self.depends_on)
+        return '%s / %s' % (self.ticket.encode('utf8'), self.depends_on.encode('utf8'))
