@@ -286,6 +286,8 @@ def do_ticket_from_message(message, queue, logger):
     if not sender:
         sender = message.get('from', _('Unknown Sender'))
 
+    logger.info("Email from: " % (sender))
+
     precedence = message.get('Precedence', '')
     if precedence in ('list', 'junk', 'bulk'):
         logger.info('Ignoring message (%s)  from %s in %s due to Precedence: %s' % (subject, sender, queue.slug, precedence))
