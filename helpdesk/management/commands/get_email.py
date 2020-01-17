@@ -205,6 +205,7 @@ def process_queue(q, logger):
                 logger.info("Processing message %s" % num)
                 status, data = server.fetch(num, '(RFC822)')
                 full_message = encoding.force_text(data[0][1], errors='replace')
+                logger.info("Email from %s" % full_message.get('reply-to', 'Unknown'))
                 ticket = ticket_from_message(message=full_message, queue=q, logger=logger)
                 if ticket:
                     server.store(num, '+FLAGS', '\\Deleted')
@@ -285,8 +286,6 @@ def do_ticket_from_message(message, queue, logger):
     sender = message.get('reply-to', '')
     if not sender:
         sender = message.get('from', _('Unknown Sender'))
-
-    logger.info("Email from: " % (sender))
 
     precedence = message.get('Precedence', '')
     if precedence in ('list', 'junk', 'bulk'):
