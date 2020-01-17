@@ -205,6 +205,7 @@ def process_queue(q, logger):
                 logger.info("Processing message %s" % num)
                 status, data = server.fetch(num, '(RFC822)')
                 full_message = encoding.force_text(data[0][1], errors='replace')
+                full_message = email.full_message_from_string(full_message) if six.PY3 else email.full_message_from_string(full_message.encode('utf-8'))
                 logger.info("Email from %s" % full_message.get('reply-to', 'Unknown'))
                 ticket = ticket_from_message(message=full_message, queue=q, logger=logger)
                 if ticket:
