@@ -271,6 +271,7 @@ def ticket_from_message(message, queue, logger):
     try:
         return(do_ticket_from_message(message, queue, logger))
     except:
+        logger.exception("An Exception occurred")
         return(None)
 
 
