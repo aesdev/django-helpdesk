@@ -404,8 +404,8 @@ def do_ticket_from_message(message, queue, logger):
         current_cc = TicketCC.objects.filter(ticket=ticket)
         current_cc_emails = [x.email for x in current_cc]
         # get emails of any Users CC'd to email
-        # current_cc_users = [x.user.email for x in current_cc]
-        current_cc_users = [x.user.email if x.user else x.email for x in current_cc]
+        current_cc_users = [x.user.email for x in current_cc if x.user]
+        # current_cc_users = [x.user.email if x.user else x.email for x in current_cc]
 
         # ensure submitter, assigned user, queue email not added
         other_emails = [queue.email_address]
