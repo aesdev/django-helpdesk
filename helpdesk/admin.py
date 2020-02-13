@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 from helpdesk.models import Queue, Ticket, FollowUp, PreSetReply, KBCategory
 from helpdesk.models import EscalationExclusion, EmailTemplate, KBItem
-from helpdesk.models import TicketChange, Attachment, IgnoreEmail
+from helpdesk.models import TicketChange, Attachment, IgnoreEmail, SavedSearch
 from helpdesk.models import CustomField
 
 
@@ -68,6 +68,11 @@ class EmailTemplateAdmin(admin.ModelAdmin):
 @admin.register(IgnoreEmail)
 class IgnoreEmailAdmin(admin.ModelAdmin):
     list_display = ('name', 'queue_list', 'email_address', 'keep_in_mailbox')
+
+
+@admin.register(SavedSearch)
+class SavedSearchAdmin(admin.ModelAdmin):
+    pass
 
 
 admin.site.register(PreSetReply)
