@@ -290,7 +290,7 @@ def view_ticket(request, ticket_id):
         return update_ticket(request, ticket_id)
 
     if helpdesk_settings.HELPDESK_STAFF_ONLY_TICKET_OWNERS:
-        users = User.objects.filter(is_active=True, is_staff=True).order_by(User.USERNAME_FIELD)
+        users = User.objects.filter(Q(is_staff=True) & Q(is_active=True)).order_by('first_name')
     else:
         users = User.objects.filter(is_active=True).order_by(User.USERNAME_FIELD)
 
